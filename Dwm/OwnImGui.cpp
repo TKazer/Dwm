@@ -35,27 +35,27 @@ bool Gui::ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice)
 	return true;
 }
 
-void Gui::DrawText(ImVec2 Pos,float Size, ImVec4 Color, const char* Text)
+void Gui::_DrawText(ImVec2 Pos,float Size, ImVec4 Color, const char* Text)
 {
 	ImGui::GetForegroundDrawList()->AddText(Font, Size, Pos, ImGui::ColorConvertFloat4ToU32(Color), Text);
 }
 
-void Gui::DrawRectFilled(ImVec2 Min, ImVec2 Max, ImVec4 Color, float Rounding)
+void Gui::_DrawRectFilled(ImVec2 Min, ImVec2 Max, ImVec4 Color, float Rounding)
 {
 	ImGui::GetForegroundDrawList()->AddRectFilled(Min, Max, ImGui::ColorConvertFloat4ToU32(Color), Rounding);
 }
 
-void Gui::DrawRect(ImVec2 Min, ImVec2 Max, ImVec4 Color, float Thickness)
+void Gui::_DrawRect(ImVec2 Min, ImVec2 Max, ImVec4 Color, float Thickness)
 {
 	ImGui::GetForegroundDrawList()->AddRect(Min, Max, ImGui::ColorConvertFloat4ToU32(Color), 0, 0, Thickness);
 }
 
-void Gui::DrawLine(ImVec2 From, ImVec2 To, ImVec4 Color, float Thickness)
+void Gui::_DrawLine(ImVec2 From, ImVec2 To, ImVec4 Color, float Thickness)
 {
 	ImGui::GetForegroundDrawList()->AddLine(From, To, ImGui::ColorConvertFloat4ToU32(Color), Thickness);
 }
 
-void Gui::DrawCircle(ImVec2 Pos, float Radius, ImVec4 Color, float Thickness)
+void Gui::_DrawCircle(ImVec2 Pos, float Radius, ImVec4 Color, float Thickness)
 {
 	ImGui::GetForegroundDrawList()->AddCircle(Pos, Radius, ImGui::ColorConvertFloat4ToU32(Color), (Radius > 50 ? Radius : 50), Thickness);
 }

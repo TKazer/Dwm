@@ -19,6 +19,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Communication">
+      <UniqueIdentifier>{0e99ae04-0806-4293-89dc-d4c6558e439c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -51,7 +54,13 @@
     <ClInclude Include="OwnImGui.h">
       <Filter>OwnImGui</Filter>
     </ClInclude>
-    <ClInclude Include="FeatureFunc.hpp">
+    <ClInclude Include="Com.h">
+      <Filter>Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawDataStruct.h">
+      <Filter>Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
       <Filter>Function</Filter>
     </ClInclude>
   </ItemGroup>
@@ -82,6 +91,15 @@
     </ClCompile>
     <ClCompile Include="OwnImGui.cpp">
       <Filter>OwnImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="FeatureFunc.cpp">
+      <Filter>Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Mapmem.cpp">
+      <Filter>Function</Filter>
+    </ClCompile>
+    <ClCompile Include="Com.cpp">
+      <Filter>Communication</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
