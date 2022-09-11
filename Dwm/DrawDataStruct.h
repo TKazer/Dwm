@@ -14,16 +14,18 @@ struct _Text
 
 struct _Rect
 {
-	ImVec2 Min;
-	ImVec2 Max;
+	ImVec2 Pos;
+	float  Width;
+	float  Height;
 	ImVec4 Color;
 	float  Thickness;
 };
 
 struct _RectFilled
 {
-	ImVec2 Min;
-	ImVec2 Max;
+	ImVec2 Pos;
+	float  Width;
+	float  Height;
 	ImVec4 Color;
 	float  Rounding;
 };

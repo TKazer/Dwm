@@ -13,12 +13,16 @@ extern ID3D11RenderTargetView* g_mainRenderTargetView;
 
 namespace Gui
 {
+	RECT ProgramRect{};
+
+	void CalcPos(ImVec2& Pos);
+
 	bool ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice);
 
 	void _DrawText(ImVec2 Pos, float Size, ImVec4 Color, const char* Text);
-	void _DrawRect(ImVec2 Min, ImVec2 Max, ImVec4 Color, float Thickness);
+	void _DrawRect(ImVec2 Pos, float Width, float Height, ImVec4 Color, float Thickness);
 	void _DrawLine(ImVec2 From, ImVec2 To, ImVec4 Color, float Thickness);
 	void _DrawCircle(ImVec2 Pos, float Radius, ImVec4 Color, float Thickness);
-	void _DrawRectFilled(ImVec2 Min, ImVec2 Max, ImVec4 Color, float Rounding);
+	void _DrawRectFilled(ImVec2 Pos, float Width, float Height, ImVec4 Color, float Rounding);
 }
 

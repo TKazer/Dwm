@@ -22,7 +22,7 @@ void CMainCom::Com()
 		case TYPE_RECT:
 		{
 			_Rect& Temp = this->DrawData->DrawDataArray[i]._From.Rect;
-			Gui::_DrawRect(Temp.Min, Temp.Max, Temp.Color, Temp.Thickness);
+			Gui::_DrawRect(Temp.Pos, Temp.Width,Temp.Height, Temp.Color, Temp.Thickness);
 		}
 		break;
 		case TYPE_LINE:
@@ -40,7 +40,7 @@ void CMainCom::Com()
 		case TYPE_RECTFILLED:
 		{
 			_RectFilled& Temp = this->DrawData->DrawDataArray[i]._From.RectFilled;
-			Gui::_DrawRectFilled(Temp.Min, Temp.Max, Temp.Color, Temp.Rounding);
+			Gui::_DrawRectFilled(Temp.Pos, Temp.Width, Temp.Height, Temp.Color, Temp.Rounding);
 		}
 		break;
 		default:
