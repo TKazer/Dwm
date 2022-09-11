@@ -6,6 +6,8 @@ ID3D11DeviceContext* g_pd3dDeviceContext;
 ID3D11RenderTargetView* g_mainRenderTargetView;
 ImFont* Font;
 
+RECT ProgramRect;
+
 bool Gui::ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice)
 {
 	g_pSwapChain = pSwapChain;
@@ -25,7 +27,7 @@ bool Gui::ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice)
 
 	// ≥ı ºªØImGui
 	HWND hProgram = FindWindow(L"Progman", L"Program Manager");
-	GetClientRect(hProgram, &Gui::ProgramRect);
+	GetClientRect(hProgram, &ProgramRect);
 	ImGui_ImplWin32_Init(hProgram);
 	ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
 
@@ -39,8 +41,8 @@ bool Gui::ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice)
 
 void Gui::CalcPos(ImVec2& Pos)
 {
-	Pos.x = Pos.x / static_cast<float>(Gui::ProgramRect.right) * 1920.f;
-	Pos.y = Pos.y / static_cast<float>(Gui::ProgramRect.bottom) * 1080.f;
+	Pos.x = Pos.x / static_cast<float>(ProgramRect.right) * 1920.f;
+	Pos.y = Pos.y / static_cast<float>(ProgramRect.bottom) * 1080.f;
 }
 
 void Gui::_DrawText(ImVec2 Pos,float Size, ImVec4 Color, const char* Text)
