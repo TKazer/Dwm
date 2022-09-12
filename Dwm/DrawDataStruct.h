@@ -2,7 +2,7 @@
 #include "OwnImGui.h"
 
 const int TEXTMAX = 256;
-const int DRAWMAX = 500;
+const int DRAWMAX = 0x2500;
 
 struct _Text
 {
@@ -10,6 +10,7 @@ struct _Text
 	float  Size;
 	ImVec4 Color;
 	char   Text[TEXTMAX];
+	bool   Stroke;
 };
 
 struct _Rect

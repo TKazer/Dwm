@@ -45,24 +45,23 @@ UINT WINAPI MainThread(PVOID)
 {
     while (!GetModuleHandleA("dwmcore.dll"))
         Sleep(100);
-    auto ResolveRelative = [](DWORD64 Address) {
-        return Address + *reinterpret_cast<int*>(Address + 0x3) + 0x7;
+    auto ResolveRelative = [](DWORD64 Address,DWORD StartOffset,DWORD Size) {
+        return Address + *reinterpret_cast<int*>(Address + StartOffset) + Size;
     };
 
     DWORD64 d2d1Module = reinterpret_cast<DWORD64>(GetModuleHandleA("d2d1.dll"));
     DWORD64 ShellCodeMPO = util::FeatureFunc::Search(d2d1Module + 0x1000, "00 00 00 00 00 00 00 00 00 00 00 00");
-    DWORD64 DrawingContext = util::FeatureFunc::Search(d2d1Module, "48 8D 05 ?? ?? ?? ?? 33 ED 48 8D 71 08");
-    DWORD64 CallMPO = 24 + util::FeatureFunc::Search(d2d1Module, "48 89 4C 24 30 48 8B CB 48 89 44 24 28 8B 84 24 80 00 00 00 89 44 24 20");
-    DWORD64 CallDwm = 24 + util::FeatureFunc::Search(d2d1Module, "8B 84 24 98 00 00 00 89 44 24 28 48 8B 84 24 90 00 00 00 48 89 44 24 20");
+    DWORD64 CallMPO = 0x13 + util::FeatureFunc::Search(d2d1Module, "48 ?? ?? 48 ?? ?? ?? ?? 8B ?? ?? ?? ?? ?? ?? 89 ?? ?? ?? E8");
+    DWORD64 CallDwm = 0x25 + util::FeatureFunc::Search(d2d1Module, "48 8B ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? 8B ?? ?? ?? ?? ?? ?? 89 ?? ?? ?? 48 8B ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? E8");
 
-    if (ShellCodeMPO == 0 || DrawingContext == 0 || CallMPO == 0 || CallDwm == 0)
+    if (ShellCodeMPO == 0|| CallMPO == 0 || CallDwm == 0)
         return 0;
 
-    DWORD64 VfTable = ResolveRelative(DrawingContext);
-    oPresentMPO = reinterpret_cast<PresentMPO_>(*(PVOID*)(VfTable + 7 * 0x8));
+    oPresentMPO = reinterpret_cast<PresentMPO_>(ResolveRelative(CallMPO, 1, 5));
+    oPresentDWM = reinterpret_cast<PresentDWM_>(ResolveRelative(CallDwm, 1, 5));
 
     //char Data[256]{};
-    //sprintf_s(Data, "EmptyAddress:%llX, CallMPOAddress:%llX, CallDwmAddress:%llX, oPresentMPO:%llX\n", ShellCodeMPO, CallMPO, CallDwm, (DWORD64)oPresentMPO);
+    //sprintf_s(Data, "EmptyAddress:%llX, CallMPOAddress:%llX, CallDwmAddress:%llX, oPresentMPO:%llX\n, oPresentDWM:%llX\n", ShellCodeMPO, CallMPO, CallDwm, (DWORD64)oPresentMPO,(DWORD64)oPresentDWM);
     //OutputDebugStringA(Data);
 
     ULONG OldProtect = 0;

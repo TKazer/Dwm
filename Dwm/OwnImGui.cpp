@@ -35,7 +35,7 @@ bool Gui::ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice)
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.IniFilename = nullptr;
 	io.LogFilename = nullptr;
-	Font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msyh.ttc", 16, 0, io.Fonts->GetGlyphRangesChineseFull());
+	Font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msyhbd.ttc", 18, 0, io.Fonts->GetGlyphRangesChineseFull());
 	return true;
 }
 
@@ -45,10 +45,19 @@ void Gui::CalcPos(ImVec2& Pos)
 	Pos.y = Pos.y / static_cast<float>(ProgramRect.bottom) * 1080.f;
 }
 
-void Gui::_DrawText(ImVec2 Pos,float Size, ImVec4 Color, const char* Text)
+void Gui::_DrawText(ImVec2 Pos,float Size, ImVec4 Color, const char* Text, bool Stroke)
 {
 	CalcPos(Pos);
-	ImGui::GetForegroundDrawList()->AddText(Font, Size, Pos, ImGui::ColorConvertFloat4ToU32(Color), Text);
+	if(!Stroke)
+		ImGui::GetForegroundDrawList()->AddText(Font, Size, Pos, ImGui::ColorConvertFloat4ToU32(Color), Text);
+	else
+	{
+		ImGui::GetForegroundDrawList()->AddText(Font, Size, { Pos.x - 1,Pos.y + 1 }, ImColor(0, 0, 0, 255), Text);
+		ImGui::GetForegroundDrawList()->AddText(Font, Size, { Pos.x - 1,Pos.y - 1 }, ImColor(0, 0, 0, 255), Text);
+		ImGui::GetForegroundDrawList()->AddText(Font, Size, { Pos.x + 1,Pos.y + 1 }, ImColor(0, 0, 0, 255), Text);
+		ImGui::GetForegroundDrawList()->AddText(Font, Size, { Pos.x + 1,Pos.y - 1 }, ImColor(0, 0, 0, 255), Text);
+		ImGui::GetForegroundDrawList()->AddText(Font, Size, Pos, ImGui::ColorConvertFloat4ToU32(Color), Text);
+	}
 }
 
 void Gui::_DrawRectFilled(ImVec2 Pos, float Width, float Height, ImVec4 Color, float Rounding)

@@ -9,6 +9,10 @@ void CMainCom::Com()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	ImGui::Begin("Menu");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::End();
+
 	for (int i = 0; i < this->DrawData->DrawCount; i++)
 	{
 		switch (this->DrawData->DrawDataArray[i].Type)
@@ -16,7 +20,7 @@ void CMainCom::Com()
 		case TYPE_TEXT:
 		{
 			_Text& Temp = this->DrawData->DrawDataArray[i]._From.Text;
-			Gui::_DrawText(Temp.Pos, Temp.Size, Temp.Color, Temp.Text);
+			Gui::_DrawText(Temp.Pos, Temp.Size, Temp.Color, Temp.Text, Temp.Stroke);
 		}
 		break;
 		case TYPE_RECT:
