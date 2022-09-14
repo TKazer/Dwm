@@ -30,13 +30,36 @@ __int64 __fastcall MyPresentMPO(void* thisptr, IDXGISwapChain* pDxgiSwapChain, u
     }
     MainCom.Com();
     
-    END:
+END:
     return oPresentMPO(thisptr, pDxgiSwapChain, a3, a4, a5, a6, a7, a8);
 }
 
 __int64 __fastcall MyPresentDWM(void* thisptr, IDXGISwapChain* pDxgiSwapChain, unsigned int a3, unsigned int a4, const struct tagRECT* a5, unsigned int a6, const struct DXGI_SCROLL_RECT* a7, unsigned int a8, struct IDXGIResource* a9, unsigned int a10)
 {
     // ...
+    static bool Init = false;
+    if (!Init)
+    {
+        if (!MainCom.InitImGui(pDxgiSwapChain))
+        {
+            OutputDebugStringA("[DWM MainCom] InitImGui() Filed.\n");
+            goto END;
+        }
+        Init = true;
+    }
+
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Begin("Menu");
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+
+    g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+END:
     return oPresentDWM(thisptr, pDxgiSwapChain, a3, a4, a5, a6, a7, a8, a9, a10);
 }
 
@@ -67,13 +90,13 @@ UINT WINAPI MainThread(PVOID)
     ULONG OldProtect = 0;
     VirtualProtect(reinterpret_cast<PVOID>(ShellCodeMPO), 12, PAGE_EXECUTE_READWRITE, &OldProtect);
     *reinterpret_cast<SHORT*>(ShellCodeMPO) = 0xB848;
-    *reinterpret_cast<PVOID*>(ShellCodeMPO + 2) = MyPresentMPO;
+    *reinterpret_cast<PVOID*>(ShellCodeMPO + 2) = MyPresentDWM;
     *reinterpret_cast<SHORT*>(ShellCodeMPO + 10) = 0xE0FF;
     VirtualProtect(reinterpret_cast<PVOID>(ShellCodeMPO), 12, OldProtect, &OldProtect);
 
-    VirtualProtect(reinterpret_cast<PVOID>(CallMPO), 10, PAGE_EXECUTE_READWRITE, &OldProtect);
-    *reinterpret_cast<DWORD*>(CallMPO + 1) = (ShellCodeMPO - CallMPO - 5);
-    VirtualProtect(reinterpret_cast<PVOID>(CallMPO), 10, OldProtect, &OldProtect);
+    VirtualProtect(reinterpret_cast<PVOID>(CallDwm), 10, PAGE_EXECUTE_READWRITE, &OldProtect);
+    *reinterpret_cast<DWORD*>(CallDwm + 1) = (ShellCodeMPO - CallDwm - 5);
+    VirtualProtect(reinterpret_cast<PVOID>(CallDwm), 10, OldProtect, &OldProtect);
     return 0;
 }
 
