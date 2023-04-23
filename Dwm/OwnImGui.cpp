@@ -35,7 +35,7 @@ bool Gui::ImGuiInit(IDXGISwapChain* pSwapChain, ID3D11Device* pd3dDevice)
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.IniFilename = nullptr;
 	io.LogFilename = nullptr;
-	Font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\msyhbd.ttc", 18, 0, io.Fonts->GetGlyphRangesChineseFull());
+	Font = io.Fonts->AddFontFromMemoryTTF(fonts, sizeof(fonts), 15, NULL, io.Fonts->GetGlyphRangesChineseFull());
 	return true;
 }
 

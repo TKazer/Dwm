@@ -1,7 +1,12 @@
 #pragma once
 #include <Windows.h>
+#include <iostream>
+#include <Psapi.h>
 #include <string>
 #include <vector>
+#include <Tlhelp32.h>
+#include <winternl.h>
+#include "xorstr.hpp"
 
 namespace util
 {
@@ -18,7 +23,7 @@ namespace util
 			Demo:
 				FeatureFunc::Find(Module,"48 E8 CC ?? 05 FF",0.0xffffffff)
 		*/
-		DWORD64 Search(DWORD64 Module, std::string Feature, DWORD64 StartOffset = 0, DWORD64 EndOffset = 0xffffffff);
+		DWORD64 Search(DWORD64 Module, std::string Feature, DWORD64 StartOffset = 0, DWORD64 EndOffset = 0xFFFFFFFF);
 	}
 
 	namespace MapMem
@@ -30,4 +35,9 @@ namespace util
 
 		BOOL GetMapMemFunction(PMemory_func func);
 	}
+	
+	// Call指针替换
+	void CallReplace(DWORD64 ModuleAddress, DWORD64 CallAddress, PVOID RepFunction);
+	// 获取操作系统版本
+	int GetWinVersion();
 }

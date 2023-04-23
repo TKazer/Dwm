@@ -1,5 +1,5 @@
 #include "util.h"
-
+#include <Psapi.h>
 DWORD64 util::FeatureFunc::Search(DWORD64 Module, std::string Feature, DWORD64 StartOffset, DWORD64 EndOffset)
 {
 	// È¥¿Õ
@@ -29,7 +29,7 @@ DWORD64 util::FeatureFunc::Search(DWORD64 Module, std::string Feature, DWORD64 S
 	// ËÑË÷Æ¥Åä
 	for (DWORD64 Offset = StartOffset; Offset < EndOffset; Offset++)
 	{
-		if (!IsBadHugeReadPtr(reinterpret_cast<PVOID>(Module + Offset), 1))
+		//if (!IsBadHugeReadPtr(reinterpret_cast<PVOID>(Module + Offset), 1))
 		{
 			byte* pTempByte = reinterpret_cast<byte*>(Module + Offset);
 			int ProofNum = 0;
