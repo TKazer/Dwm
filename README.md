@@ -1,2 +1,2 @@
 # Dwm
-Surport all version of system.
+Surport all versions of system.
